@@ -8,45 +8,44 @@ parameters:
   sisapi.config.service_application: test_app
 
 services:
-  config:
+  sisapi.config:
     class: UBC\SISAPI\Service\Config
-    arguments: ["%config.base_url%", "%config.username%", "%config.password%"]
+    arguments: ["%sisapi.config.base_url%", "%sisapi.config.username%", "%sisapi.config.password%"]
 
-  http_client:
+  sisapi.http_client:
     class: UBC\SISAPI\HttpClient\GuzzleClient
     lazy: true
 
-  serializer:
+  sisapi.serializer:
     class: UBC\SISAPI\Serializer\JMSSerializer
 
-  rpc_client:
-    class: \XML_RPC_Client
-    arguments: ["/auth/rpc", "%config.service_url%"]
+  sisapi.rpc_client:
+    class: XML_RPC_Client
+    arguments: ["/auth/rpc", "%sisapi.config.service_url%"]
 
-  auth_module:
+  sisapi.auth_module:
     class: %sisapi.auth_module.class%
     calls:
-      - [setRpcClient,  ["@rpc_client"]]
-      - [setUsername, ["%config.username%"]]
-      - [setPassword, ["%config.password%"]]
-      - [setServiceApplication, ["%config.service_application%"]]
-      - [setServiceUrl, ["%config.service_url%"]]
+      - [setRpcClient,  ["@sisapi.rpc_client"]]
+      - [setUsername, ["%sisapi.config.username%"]]
+      - [setPassword, ["%sisapi.config.password%"]]
+      - [setServiceApplication, ["%sisapi.config.service_application%"]]
+      - [setServiceUrl, ["%sisapi.config.service_url%"]]
      # comment out below to enable basic auth
-#      - [setUsername, ["%config.username%"]]
-#      - [setPassword, ["%config.password%"]]
+#      - [setUsername, ["%sisapi.config.username%"]]
+#      - [setPassword, ["%sisapi.config.password%"]]
 
 
-  base_service:
+  sisapi.base_service:
     abstract:  true
-    arguments: ["@config", "@http_client", "@serializer", "@auth_module"]
+    arguments: ["@sisapi.config", "@sisapi.http_client", "@sisapi.serializer", "@sisapi.auth_module"]
 
-  subject_code:
+  sisapi.subject_code:
     class: UBC\SISAPI\Service\SubjectCodeService
     lazy: true
-    arguments: ["@config", "@http_client", "@serializer", "@auth_module"]
+    arguments: ["@sisapi.config", "@sisapi.http_client", "@sisapi.serializer", "@sisapi.auth_module"]
 
-  department_code:
+  sisapi.department_code:
     class: UBC\SISAPI\Service\DepartmentCodeService
     lazy: true
-    arguments: ["@config", "@http_client", "@serializer", "@auth_module"]
-
+    arguments: ["@sisapi.config", "@sisapi.http_client", "@sisapi.serializer", "@sisapi.auth_module"]
