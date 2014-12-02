@@ -19,7 +19,7 @@
         }
     ],
     "require": {
-        "ubc/sisapi": "~0.0"
+        "ubc/sisapi": ">0.0.3"
     },
     "require-dev": {
         "phpunit/phpunit": "4.3.*"
