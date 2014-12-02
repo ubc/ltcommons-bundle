@@ -1,0 +1,20 @@
+/web/bundles/
+/app/bootstrap.php.cache
+/app/cache/*
+/app/logs/*
+!app/cache/.gitkeep
+!app/logs/.gitkeep
+/build/
+/vendor/
+/bin/
+/composer.phar
+.DS_Store
+.project
+.buildpath
+.settings/*
+.vagrant/*
+.idea/
+data/
+#css are genreated
+web/css/
+app/config/parameters.yml

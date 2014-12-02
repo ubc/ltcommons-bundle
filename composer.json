@@ -1,0 +1,27 @@
+{
+    "name": "ubc/sisapi-bundle",
+    "description": "SIS API library bundle for Symfony 2",
+    "keywords": ["sis","ubc","bundle"],
+    "homepage": "http://github.com/ubc/sisapi-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Pan Luo",
+            "email": "pan.luo@ubc.ca",
+            "homepage": "http://ctlt.ubc.ca",
+            "role": "Developer"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "pear",
+            "url": "http://pear.php.net"
+        }
+    ],
+    "require": {
+        "ubc/sisapi": "~0.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.3.*"
+    }
+}
