@@ -24,7 +24,7 @@ class UBCSISAPIExtension extends Extension
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
-        
+
         // override the parameters in services.yml
         if (array_key_exists('Auth2', $config)) {
             $container->setParameter('sisapi.config.username', $config['Auth2']['username']);
@@ -36,5 +36,19 @@ class UBCSISAPIExtension extends Extension
         if (array_key_exists('SIS', $config)) {
             $container->setParameter('sisapi.config.base_url', $config['SIS']['base_url']);
         }
+    }
+
+    /**
+     * Returns the recommended alias to use in XML.
+     *
+     * This alias is also the mandatory prefix to use when using YAML.
+     *
+     * @return string The alias
+     *
+     * @api
+     */
+    public function getAlias()
+    {
+        return 'ubcsisapi';
     }
 }
