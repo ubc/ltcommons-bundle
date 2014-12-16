@@ -4,11 +4,11 @@
          xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.1/phpunit.xsd"
          backupGlobals="false"
          colors="true"
-         bootstrap="tests/bootstrap.php"
+         bootstrap="Tests/bootstrap.php"
         >
     <testsuites>
         <testsuite name="LtCommons Bundle Suite">
-            <directory>./tests/</directory>
+            <directory>./Tests/</directory>
         </testsuite>
     </testsuites>
 
@@ -16,7 +16,6 @@
         <whitelist>
             <directory>./</directory>
             <exclude>
-                <directory>./tests</directory>
                 <directory>./vendor</directory>
             </exclude>
         </whitelist>
