@@ -1060,12 +1060,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ubc/ltcommons.git",
-                "reference": "6bcb180e43e9672204031b1541e266d8111d4e8c"
+                "reference": "7e7ebd22f41c4b6a9502ae41c5e79107745ab69f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ubc/ltcommons/zipball/6bcb180e43e9672204031b1541e266d8111d4e8c",
-                "reference": "6bcb180e43e9672204031b1541e266d8111d4e8c",
+                "url": "https://api.github.com/repos/ubc/ltcommons/zipball/7e7ebd22f41c4b6a9502ae41c5e79107745ab69f",
+                "reference": "7e7ebd22f41c4b6a9502ae41c5e79107745ab69f",
                 "shasum": ""
             },
             "require": {
@@ -1103,7 +1103,7 @@
                 "sis",
                 "ubc"
             ],
-            "time": "2014-12-16 07:28:43"
+            "time": "2014-12-16 22:32:54"
         }
     ],
     "packages-dev": [
