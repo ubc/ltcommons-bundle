@@ -34,4 +34,3 @@ services:
     class: %lt_commons.student_service.class%
     lazy: true
     arguments: ["@lt_commons.provider_factory.generic"]
-

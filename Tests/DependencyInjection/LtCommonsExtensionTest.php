@@ -2,10 +2,11 @@
 namespace UBC\LtCommonsBundle\Tests\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use UBC\LtCommonsBundle\UBCLtCommonsBundle;
 use UBC\LtCommonsBundle\DependencyInjection\LtCommonsExtension;
+use UBC\LtCommonsBundle\UBCLtCommonsBundle;
 
-class LtCommonsExtensionTest extends \PHPUnit_Framework_TestCase {
+class LtCommonsExtensionTest extends \PHPUnit_Framework_TestCase
+{
 
     public function testValidConfigHttpBasic()
     {
@@ -89,8 +90,7 @@ class LtCommonsExtensionTest extends \PHPUnit_Framework_TestCase {
 
         $container->loadFromExtension('lt_commons', array(
             'providers' => array(
-                'xml' => array(
-                )
+                'xml' => array()
             )
 
         ));
@@ -108,13 +108,15 @@ class LtCommonsExtensionTest extends \PHPUnit_Framework_TestCase {
         $bundle->build($container);
         $container->getCompilerPassConfig()->setOptimizationPasses(array());
         $container->getCompilerPassConfig()->setRemovingPasses(array());
+
         return $container;
     }
+
     protected function getContainer()
     {
         $container = $this->getRawContainer();
         $container->compile();
+
         return $container;
     }
 }
- 

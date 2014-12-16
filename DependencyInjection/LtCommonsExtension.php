@@ -26,7 +26,7 @@ class LtCommonsExtension extends Extension
     /**
      * Loads a specific configuration.
      *
-     * @param array $configs An array of configuration values
+     * @param array            $configs   An array of configuration values
      * @param ContainerBuilder $container A ContainerBuilder instance
      *
      * @throws \InvalidArgumentException When provided tag is not defined in this extension
@@ -49,7 +49,7 @@ class LtCommonsExtension extends Extension
     /**
      * Create Data Provider definitions
      *
-     * @param $providers
+     * @param array            $providers
      * @param ContainerBuilder $container
      */
     private function createDataProviders($providers, ContainerBuilder $container)
@@ -66,8 +66,8 @@ class LtCommonsExtension extends Extension
     /**
      * Create data provider definition
      *
-     * @param string $name name of the provider, e.g., sis or xml
-     * @param array $config the configuration for the provider
+     * @param string           $name      name of the provider, e.g., sis or xml
+     * @param array            $config    the configuration for the provider
      * @param ContainerBuilder $container DI container
      *
      * @return Reference the reference of the provider service
@@ -82,7 +82,7 @@ class LtCommonsExtension extends Extension
         $providerId = null;
         if ('sis' == $name) {
             $providerId = 'lt_commons.provider.sis';
-        } else if ('xml' == $name) {
+        } elseif ('xml' == $name) {
             $providerId = 'lt_commons.provider.xml';
         }
 
@@ -108,7 +108,7 @@ class LtCommonsExtension extends Extension
                 ->addArgument($http_client)
                 ->addArgument($auth)
                 ->addArgument($serializer);
-        } else if ('xml' == $name) {
+        } elseif ('xml' == $name) {
             $id = 'lt_commons.provider.xml';
             $container->register($id, '%lt_commons.data_provider.xml.class%')
                 ->addArgument($config['path'])
@@ -129,12 +129,12 @@ class LtCommonsExtension extends Extension
         $id = $providerId . '.' . $config['module'];
         switch ($config['module']) {
             case 'Auth2':
-                $container->register($providerId.'.xml_rpc_client', '%lt_commons.rpc_client.class%')
+                $container->register($providerId . '.xml_rpc_client', '%lt_commons.rpc_client.class%')
                     ->addArgument($config['rpc_path'])
                     ->addArgument($config['service_url'])
                     ->setPublic(false);
                 $container->register($id, '%lt_commons.auth_module.auth2.class%')
-                    ->addArgument(new Reference($providerId.'.xml_rpc_client'))
+                    ->addArgument(new Reference($providerId . '.xml_rpc_client'))
                     ->addArgument($config['username'])
                     ->addArgument($config['password'])
                     ->addArgument($config['service_application'])
@@ -158,10 +158,9 @@ class LtCommonsExtension extends Extension
 
     private function createHttpClient($providerId, $config, ContainerBuilder $container)
     {
-        $id = $providerId.'.'.$config;
+        $id = $providerId . '.' . $config;
 
-        switch($config)
-        {
+        switch ($config) {
             case 'Guzzle':
                 $container->register($id, '%lt_commons.http_client.guzzle.class%')
                     ->setPublic(false);
@@ -178,10 +177,9 @@ class LtCommonsExtension extends Extension
 
     private function createSerializer($providerId, $config, ContainerBuilder $container)
     {
-        $id = $providerId.'.'.$config;
+        $id = $providerId . '.' . $config;
 
-        switch($config)
-        {
+        switch ($config) {
             case 'JMS':
                 $container->register($id, '%lt_commons.serializer.jms.class%')
                     ->setPublic(false);
