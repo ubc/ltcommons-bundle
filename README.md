@@ -47,21 +47,21 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 );
 
 $container = new \Symfony\Component\DependencyInjection\ContainerBuilder();
-$container->registerExtension(new \UBC\LtCommons\LtCommonsExtension());
+$container->registerExtension(new \UBC\LtCommons\UBCLtCommonsExtension());
 
 $loader = new YamlFileLoader($container, new FileLocator(__DIR__));
 $loader->load('config.yml');
 
 $container->compile();
 
-$codes = $container->get('department_code')->getDepartmentCodes();
+$codes = $container->get('ubc_lt_commons.service.department_code')->getDepartmentCodes();
 ```
 
 Configuration
 -------------
 
 ```yml
-lt_commons:
+ubc_lt_commons:
   providers:
     sis:
       base_url: http://sisapi.example.com

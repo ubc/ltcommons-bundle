@@ -15,13 +15,13 @@ use Symfony\Component\DependencyInjection\Reference;
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  *
- * Class LtCommonsExtension Dependency inject extension for LT Commons. This extension helps to
+ * Class UBCLtCommonsExtension Dependency inject extension for LT Commons. This extension helps to
  * 1. Load the service definition file, services.yml
  * 2. Valid configuration
  * 3. Merge configuration file into default values in services.yml
  * @package UBC\LtCommons
  */
-class LtCommonsExtension extends Extension
+class UBCLtCommonsExtension extends Extension
 {
     /**
      * Loads a specific configuration.
@@ -59,7 +59,7 @@ class LtCommonsExtension extends Extension
             $providerIds[] = $this->createDataProvider($class, $provider, $container);
         }
 
-        $container->getDefinition('lt_commons.provider_factory.generic')
+        $container->getDefinition('ubc_lt_commons.provider_factory.generic')
             ->setArguments(array($providerIds));
     }
 
@@ -81,9 +81,9 @@ class LtCommonsExtension extends Extension
 
         $providerId = null;
         if ('sis' == $name) {
-            $providerId = 'lt_commons.provider.sis';
+            $providerId = 'ubc_lt_commons.provider.sis';
         } elseif ('xml' == $name) {
-            $providerId = 'lt_commons.provider.xml';
+            $providerId = 'ubc_lt_commons.provider.xml';
         }
 
         $auth = null;
@@ -102,15 +102,15 @@ class LtCommonsExtension extends Extension
         }
 
         if ('sis' == $name) {
-            $id = 'lt_commons.provider.sis';
-            $container->register($id, '%lt_commons.data_provider.sis.class%')
+            $id = 'ubc_lt_commons.provider.sis';
+            $container->register($id, '%ubc_lt_commons.data_provider.sis.class%')
                 ->addArgument($config['base_url'])
                 ->addArgument($http_client)
                 ->addArgument($auth)
                 ->addArgument($serializer);
         } elseif ('xml' == $name) {
-            $id = 'lt_commons.provider.xml';
-            $container->register($id, '%lt_commons.data_provider.xml.class%')
+            $id = 'ubc_lt_commons.provider.xml';
+            $container->register($id, '%ubc_lt_commons.data_provider.xml.class%')
                 ->addArgument($config['path'])
                 ->addArgument($serializer);
         } else {
@@ -129,11 +129,11 @@ class LtCommonsExtension extends Extension
         $id = $providerId . '.' . $config['module'];
         switch ($config['module']) {
             case 'Auth2':
-                $container->register($providerId . '.xml_rpc_client', '%lt_commons.rpc_client.class%')
+                $container->register($providerId . '.xml_rpc_client', '%ubc_lt_commons.rpc_client.class%')
                     ->addArgument($config['rpc_path'])
                     ->addArgument($config['service_url'])
                     ->setPublic(false);
-                $container->register($id, '%lt_commons.auth_module.auth2.class%')
+                $container->register($id, '%ubc_lt_commons.auth_module.auth2.class%')
                     ->addArgument(new Reference($providerId . '.xml_rpc_client'))
                     ->addArgument($config['username'])
                     ->addArgument($config['password'])
@@ -142,7 +142,7 @@ class LtCommonsExtension extends Extension
                     ->setPublic(false);
                 break;
             case 'HttpBasic':
-                $container->register($id, '%lt_commons.auth_module.httpbasic.class%')
+                $container->register($id, '%ubc_lt_commons.auth_module.httpbasic.class%')
                     ->addArgument($config['username'])
                     ->addArgument($config['password'])
                     ->setPublic(false);
@@ -162,7 +162,7 @@ class LtCommonsExtension extends Extension
 
         switch ($config) {
             case 'Guzzle':
-                $container->register($id, '%lt_commons.http_client.guzzle.class%')
+                $container->register($id, '%ubc_lt_commons.http_client.guzzle.class%')
                     ->setPublic(false);
                 break;
             default:
@@ -181,7 +181,7 @@ class LtCommonsExtension extends Extension
 
         switch ($config) {
             case 'JMS':
-                $container->register($id, '%lt_commons.serializer.jms.class%')
+                $container->register($id, '%ubc_lt_commons.serializer.jms.class%')
                     ->setPublic(false);
                 break;
             default:

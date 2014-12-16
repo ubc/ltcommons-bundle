@@ -2,17 +2,17 @@
 namespace UBC\LtCommonsBundle\Tests\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use UBC\LtCommonsBundle\DependencyInjection\LtCommonsExtension;
+use UBC\LtCommonsBundle\DependencyInjection\UBCLtCommonsExtension;
 use UBC\LtCommonsBundle\UBCLtCommonsBundle;
 
-class LtCommonsExtensionTest extends \PHPUnit_Framework_TestCase
+class UBCLtCommonsExtensionTest extends \PHPUnit_Framework_TestCase
 {
 
     public function testValidConfigHttpBasic()
     {
         $container = $this->getRawContainer();
 
-        $container->loadFromExtension('lt_commons', array(
+        $container->loadFromExtension('ubc_lt_commons', array(
             'providers' => array(
                 'sis' => array(
                     'base_url' => 'http://sisapi.example.com',
@@ -29,15 +29,15 @@ class LtCommonsExtensionTest extends \PHPUnit_Framework_TestCase
         // compile the service definitions
         $container->compile();
 
-        $this->assertInstanceOf('UBC\LtCommons\Service\DepartmentCodeService', $container->get('department_code'));
-        $this->assertInstanceOf('UBC\LtCommons\Service\SubjectCodeService', $container->get('subject_code'));
+        $this->assertInstanceOf('UBC\LtCommons\Service\DepartmentCodeService', $container->get('ubc_lt_commons.service.department_code'));
+        $this->assertInstanceOf('UBC\LtCommons\Service\SubjectCodeService', $container->get('ubc_lt_commons.service.subject_code'));
     }
 
     public function testValidConfigAuth2()
     {
         $container = $this->getRawContainer();
 
-        $container->loadFromExtension('lt_commons', array(
+        $container->loadFromExtension('ubc_lt_commons', array(
             'providers' => array(
                 'sis' => array(
                     'base_url' => 'http://sisapi.example.com',
@@ -55,19 +55,19 @@ class LtCommonsExtensionTest extends \PHPUnit_Framework_TestCase
         // compile the service definitions
         $container->compile();
 
-        $this->assertInstanceOf('UBC\LtCommons\Service\DepartmentCodeService', $container->get('department_code'));
-        $this->assertInstanceOf('UBC\LtCommons\Service\SubjectCodeService', $container->get('subject_code'));
+        $this->assertInstanceOf('UBC\LtCommons\Service\DepartmentCodeService', $container->get('ubc_lt_commons.service.department_code'));
+        $this->assertInstanceOf('UBC\LtCommons\Service\SubjectCodeService', $container->get('ubc_lt_commons.service.subject_code'));
     }
 
     /**
      * @expectedException \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
-     * @expectedExceptionMessage Unrecognized options "invalid" under "lt_commons.providers.sis"
+     * @expectedExceptionMessage Unrecognized options "invalid" under "ubc_lt_commons.providers.sis"
      */
     public function testInValidConfig()
     {
         $container = $this->getRawContainer();
 
-        $container->loadFromExtension('lt_commons', array(
+        $container->loadFromExtension('ubc_lt_commons', array(
             'providers' => array(
                 'sis' => array(
                     'invalid' => 'parameter'
@@ -82,13 +82,13 @@ class LtCommonsExtensionTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
-     * @expectedExceptionMessage Invalid configuration for path "lt_commons.providers": The base_url has to specified to use xml data provider.
+     * @expectedExceptionMessage Invalid configuration for path "ubc_lt_commons.providers": The base_url has to specified to use xml data provider.
      */
     public function testInValidConfigMissingPath()
     {
         $container = $this->getRawContainer();
 
-        $container->loadFromExtension('lt_commons', array(
+        $container->loadFromExtension('ubc_lt_commons', array(
             'providers' => array(
                 'xml' => array()
             )
@@ -102,7 +102,7 @@ class LtCommonsExtensionTest extends \PHPUnit_Framework_TestCase
     protected function getRawContainer()
     {
         $container = new ContainerBuilder();
-        $ltcommons = new LtCommonsExtension();
+        $ltcommons = new UBCLtCommonsExtension();
         $container->registerExtension($ltcommons);
         $bundle = new UBCLtCommonsBundle();
         $bundle->build($container);

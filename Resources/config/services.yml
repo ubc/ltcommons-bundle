@@ -1,36 +1,36 @@
 parameters:
-  lt_commons.http_client.guzzle.class: UBC\LtCommons\HttpClient\GuzzleClient
-  lt_commons.serializer.jms.class: UBC\LtCommons\Serializer\JMSSerializer
-  lt_commons.rpc_client.class: \XML_RPC_Client
-  lt_commons.auth_module.auth2.class: UBC\LtCommons\Authentication\Auth2
-  lt_commons.auth_module.httpbasic.class: UBC\LtCommons\Authentication\HttpBasic
-  lt_commons.data_provider.sis.class: UBC\LtCommons\Provider\SISDataProvider
-  lt_commons.data_provider.xml.class: UBC\LtCommons\Provider\XMLDataProvider
-  lt_commons.subject_code_service.class: UBC\LtCommons\Service\SubjectCodeService
-  lt_commons.department_code_service.class: UBC\LtCommons\Service\DepartmentCodeService
-  lt_commons.student_service.class: UBC\LtCommons\Service\StudentService
-  lt_commons.provider_factory.generic.class: UBC\LtCommons\Provider\DataProviderFactory
+  ubc_lt_commons.http_client.guzzle.class: UBC\LtCommons\HttpClient\GuzzleClient
+  ubc_lt_commons.serializer.jms.class: UBC\LtCommons\Serializer\JMSSerializer
+  ubc_lt_commons.rpc_client.class: \XML_RPC_Client
+  ubc_lt_commons.auth_module.auth2.class: UBC\LtCommons\Authentication\Auth2
+  ubc_lt_commons.auth_module.httpbasic.class: UBC\LtCommons\Authentication\HttpBasic
+  ubc_lt_commons.data_provider.sis.class: UBC\LtCommons\Provider\SISDataProvider
+  ubc_lt_commons.data_provider.xml.class: UBC\LtCommons\Provider\XMLDataProvider
+  ubc_lt_commons.subject_code_service.class: UBC\LtCommons\Service\SubjectCodeService
+  ubc_lt_commons.department_code_service.class: UBC\LtCommons\Service\DepartmentCodeService
+  ubc_lt_commons.student_service.class: UBC\LtCommons\Service\StudentService
+  ubc_lt_commons.provider_factory.generic.class: UBC\LtCommons\Provider\DataProviderFactory
 
 services:
-  lt_commons.provider_factory.generic:
-    class: %lt_commons.provider_factory.generic.class%
+  ubc_lt_commons.provider_factory.generic:
+    class: %ubc_lt_commons.provider_factory.generic.class%
     arguments: [Collection]
 
-  base_service:
+  ubc_lt_commons.service.base_service:
     abstract:  true
-    arguments: ["@lt_commons.provider_factory.generic"]
+    arguments: ["@ubc_lt_commons.provider_factory.generic"]
 
-  subject_code:
-    class: %lt_commons.subject_code_service.class%
+  ubc_lt_commons.service.subject_code:
+    class: %ubc_lt_commons.subject_code_service.class%
     lazy: true
-    arguments: ["@lt_commons.provider_factory.generic"]
+    arguments: ["@ubc_lt_commons.provider_factory.generic"]
 
-  department_code:
-    class: %lt_commons.department_code_service.class%
+  ubc_lt_commons.service.department_code:
+    class: %ubc_lt_commons.department_code_service.class%
     lazy: true
-    arguments: ["@lt_commons.provider_factory.generic"]
+    arguments: ["@ubc_lt_commons.provider_factory.generic"]
 
-  student:
-    class: %lt_commons.student_service.class%
+  ubc_lt_commons.service.student:
+    class: %ubc_lt_commons.student_service.class%
     lazy: true
-    arguments: ["@lt_commons.provider_factory.generic"]
+    arguments: ["@ubc_lt_commons.provider_factory.generic"]
