@@ -1,56 +1,37 @@
 parameters:
-  sisapi.auth_module.class: UBC\SISAPI\Authentication\Auth2
-# sisapi.auth_module.class: UBC\SISAPI\Authentication\Basic
-  sisapi.config.base_url: http://sisapi.example.com
-  sisapi.config.username: service_username
-  sisapi.config.password: service_password
-  sisapi.config.service_url: http://auth2.example.com
-  sisapi.config.service_application: test_app
+  lt_commons.http_client.guzzle.class: UBC\LtCommons\HttpClient\GuzzleClient
+  lt_commons.serializer.jms.class: UBC\LtCommons\Serializer\JMSSerializer
+  lt_commons.rpc_client.class: \XML_RPC_Client
+  lt_commons.auth_module.auth2.class: UBC\LtCommons\Authentication\Auth2
+  lt_commons.auth_module.httpbasic.class: UBC\LtCommons\Authentication\HttpBasic
+  lt_commons.data_provider.sis.class: UBC\LtCommons\Provider\SISDataProvider
+  lt_commons.data_provider.xml.class: UBC\LtCommons\Provider\XMLDataProvider
+  lt_commons.subject_code_service.class: UBC\LtCommons\Service\SubjectCodeService
+  lt_commons.department_code_service.class: UBC\LtCommons\Service\DepartmentCodeService
+  lt_commons.student_service.class: UBC\LtCommons\Service\StudentService
+  lt_commons.provider_factory.generic.class: UBC\LtCommons\Provider\DataProviderFactory
 
 services:
-  sisapi.config:
-    class: UBC\SISAPI\Service\Config
-    arguments: ["%sisapi.config.base_url%", "%sisapi.config.username%", "%sisapi.config.password%"]
+  lt_commons.provider_factory.generic:
+    class: %lt_commons.provider_factory.generic.class%
+    arguments: [Collection]
 
-  sisapi.http_client:
-    class: UBC\SISAPI\HttpClient\GuzzleClient
-    lazy: true
-
-  sisapi.serializer:
-    class: UBC\SISAPI\Serializer\JMSSerializer
-
-  sisapi.rpc_client:
-    class: XML_RPC_Client
-    arguments: ["/auth/rpc", "%sisapi.config.service_url%"]
-
-  sisapi.auth_module:
-    class: %sisapi.auth_module.class%
-    calls:
-      - [setRpcClient,  ["@sisapi.rpc_client"]]
-      - [setUsername, ["%sisapi.config.username%"]]
-      - [setPassword, ["%sisapi.config.password%"]]
-      - [setServiceApplication, ["%sisapi.config.service_application%"]]
-      - [setServiceUrl, ["%sisapi.config.service_url%"]]
-     # comment out below to enable basic auth
-#      - [setUsername, ["%sisapi.config.username%"]]
-#      - [setPassword, ["%sisapi.config.password%"]]
-
-
-  sisapi.base_service:
+  base_service:
     abstract:  true
-    arguments: ["@sisapi.config", "@sisapi.http_client", "@sisapi.serializer", "@sisapi.auth_module"]
+    arguments: ["@lt_commons.provider_factory.generic"]
 
-  sisapi.subject_code:
-    class: UBC\SISAPI\Service\SubjectCodeService
+  subject_code:
+    class: %lt_commons.subject_code_service.class%
     lazy: true
-    arguments: ["@sisapi.config", "@sisapi.http_client", "@sisapi.serializer", "@sisapi.auth_module"]
+    arguments: ["@lt_commons.provider_factory.generic"]
 
-  sisapi.department_code:
-    class: UBC\SISAPI\Service\DepartmentCodeService
+  department_code:
+    class: %lt_commons.department_code_service.class%
     lazy: true
-    arguments: ["@sisapi.config", "@sisapi.http_client", "@sisapi.serializer", "@sisapi.auth_module"]
+    arguments: ["@lt_commons.provider_factory.generic"]
 
-  sisapi.student:
-    class: UBC\SISAPI\Service\StudentService
+  student:
+    class: %lt_commons.student_service.class%
     lazy: true
-    arguments: ["@sisapi.config", "@sisapi.http_client", "@sisapi.serializer", "@sisapi.auth_module"]
+    arguments: ["@lt_commons.provider_factory.generic"]
+

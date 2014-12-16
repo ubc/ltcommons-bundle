@@ -1,7 +1,8 @@
 <?php
 
-namespace UBC\SISAPIBundle\DependencyInjection;
+namespace UBC\LtCommonsBundle\DependencyInjection;
 
+use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -18,57 +19,73 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('sisapi');
+        $rootNode = $treeBuilder->root('lt_commons');
 
-        $rootNode
-            ->children()
-            ->append($this->addAuth2Node())
-            ->append($this->addSISNode())
-            ->end()
-        ;
+        $this->addProvidersSection($rootNode);
 
         return $treeBuilder;
     }
 
-    public function addAuth2Node()
+    public function addProvidersSection(ArrayNodeDefinition $rootNode)
     {
-
-        $treeBuilder = new TreeBuilder();
-        $node = $treeBuilder->root('Auth2');
-
-        $node
+        $providerNodeBuilder = $rootNode
+            ->fixXmlConfig('provider')
             ->children()
-            ->scalarNode('username')
-            ->isRequired()
-            ->end()
-            ->scalarNode('password')
-            ->isRequired()
-            ->end()
-            ->scalarNode('service_application')
-            ->isRequired()
-            ->end()
-            ->scalarNode('service_url')
-            ->isRequired()
-            ->end()
+                ->arrayNode('providers')
+                    ->example(array(
+                        'sis' => array(
+                            'base_url' => 'http://sisapi.example.com',
+                            'http_client' => 'Guzzle',
+                            'auth' => array(
+                                'module' => 'Auth2',
+                                'rpc_path' => '/auth/rpc',
+                                'username' => 'service_username',
+                                'password' => 'service_password',
+                                'service_application' => 'service_app',
+                                'service_url' => 'https://www.auth.stg.id.ubc.ca'
+                            ),
+                            'serializer' => 'JMS'
+                        )))
+                    ->isRequired()
+                    ->requiresAtLeastOneElement()
+                    ->useAttributeAsKey('class')
+                    ->prototype('array')
+        ;
+
+        $providerNodeBuilder
+            ->children()
+                ->scalarNode('base_url')->end()
+                ->scalarNode('http_client')->defaultValue('Guzzle')->end()
+                ->scalarNode('serializer')->defaultValue('JMS')->end()
+                ->arrayNode('auth')
+                    ->children()
+                        ->scalarNode('module')->defaultValue('HttpBasic')->end()
+                        ->scalarNode('rpc_path')->defaultValue('/auth/rpc')->end()
+                        ->scalarNode('username')->isRequired()->end()
+                        ->scalarNode('password')->isRequired()->end()
+                        ->scalarNode('service_application')->end()
+                        ->scalarNode('service_url')->defaultValue('https://www.auth.stg.id.ubc.ca')->end()
+                    ->end()
+                    ->validate()
+                        ->ifTrue(function ($v) { return 'Auth2' === $v['module'] && empty($v['service_application']);})
+                        ->thenInvalid('The service_application name has to be specified to use Auth2 module.')
+                    ->end()
+                ->end()
+                ->scalarNode('path')->end()
             ->end()
         ;
 
-        return $node;
-    }
-
-    public function addSISNode()
-    {
-        $treeBuilder = new TreeBuilder();
-        $node = $treeBuilder->root('SIS');
-
-        $node
-            ->children()
-            ->scalarNode('base_url')
-            ->isRequired()
+        $providerNodeBuilder
+            ->end()
+            ->validate()
+                ->ifTrue(function ($v) { return isset($v['sis']) && empty($v['sis']['base_url']); })
+                ->thenInvalid('The base_url has to specified to use sis data provider.')
+            ->end()
+            ->validate()
+                ->ifTrue(function ($v) { return isset($v['xml']) && empty($v['xml']['path']); })
+                ->thenInvalid('The base_url has to specified to use xml data provider.')
             ->end()
             ->end()
         ;
-
-        return $node;
     }
 }
