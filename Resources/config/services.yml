@@ -1,7 +1,7 @@
 parameters:
   ubc_lt_commons.http_client.guzzle.class: UBC\LtCommons\HttpClient\GuzzleClient
   ubc_lt_commons.serializer.jms.class: UBC\LtCommons\Serializer\JMSSerializer
-  ubc_lt_commons.rpc_client.class: \XML_RPC_Client
+  ubc_lt_commons.rpc_client.class: XML_RPC_Client
   ubc_lt_commons.auth_module.auth2.class: UBC\LtCommons\Authentication\Auth2
   ubc_lt_commons.auth_module.httpbasic.class: UBC\LtCommons\Authentication\HttpBasic
   ubc_lt_commons.data_provider.sis.class: UBC\LtCommons\Provider\SISDataProvider
