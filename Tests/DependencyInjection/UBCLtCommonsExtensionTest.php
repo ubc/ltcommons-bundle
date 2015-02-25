@@ -61,7 +61,7 @@ class UBCLtCommonsExtensionTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
-     * @expectedExceptionMessage Unrecognized options "invalid" under "ubc_lt_commons.providers.sis"
+     * @expectedExceptionMessage Unrecognized option "invalid" under "ubc_lt_commons.providers.sis"
      */
     public function testInValidConfig()
     {
